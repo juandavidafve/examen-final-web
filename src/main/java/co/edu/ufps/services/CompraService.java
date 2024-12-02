@@ -36,6 +36,14 @@ public class CompraService {
 			throw new ResourceNotFoundException("No hay información del cliente.");
 		}
 		
+		if(compra.getPagos() == null || compra.getPagos().size() == 0) {
+			throw new ResourceNotFoundException("No hay medios de pagos asignado para esta compra.");
+		}
+		
+		if(compra.getDetallesCompra() == null || compra.getDetallesCompra().size() == 0) {
+			throw new ResourceNotFoundException("No hay productos asignados para esta compra.");
+		}
+		
 		return compraRepository.save(compra);
 	}
 }

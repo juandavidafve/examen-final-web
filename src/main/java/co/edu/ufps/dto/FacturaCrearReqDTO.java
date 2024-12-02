@@ -32,8 +32,6 @@ public class FacturaCrearReqDTO {
 			compra.setCliente(this.cliente.toEntity());
 		}
 		
-		
-		
 		if(this.productos != null) {
 			List<DetallesCompra> productos = new ArrayList<DetallesCompra>();
 			for(DetalleCompraDTO detalleCompra : this.productos) {
@@ -43,12 +41,14 @@ public class FacturaCrearReqDTO {
 			compra.setDetallesCompra(productos);
 		}
 
-		List<Pago> pagos = new ArrayList<Pago>();
-		for(PagoDTO pago : this.mediosPago) {
-			pagos.add(pago.toEntity());
+		if(this.mediosPago != null) {
+			List<Pago> pagos = new ArrayList<Pago>();
+			for(PagoDTO pago : this.mediosPago) {
+				pagos.add(pago.toEntity());
+			}
+			compra.setPagos(pagos);
 		}
 		
-		compra.setPagos(pagos);
 		
 		if(this.vendedor != null) {
 			compra.setVendedor(this.vendedor.toEntity());
