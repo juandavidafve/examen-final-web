@@ -2,6 +2,7 @@ package co.edu.ufps.entities;
 
 import java.math.BigDecimal;
 import java.security.Timestamp;
+import java.util.List;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -9,6 +10,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import lombok.Data;
 
 @Entity
@@ -33,4 +35,10 @@ public class Compra {
     private BigDecimal impuestos;
     private Timestamp fecha;
     private String observaciones;
+    
+    @OneToMany(mappedBy = "compra")
+    private List<DetallesCompra> detallesCompra;
+    
+    @OneToMany(mappedBy = "compra")
+    private List<Pago> pagos;
 }
