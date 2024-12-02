@@ -14,7 +14,7 @@ import lombok.ToString;
 
 @Data
 @ToString
-public class FacturaCrearReqDTO {
+public class CompraCrearResDTO {
 	private BigDecimal impuesto;
 	private ClienteDTO cliente;
 	private List<DetalleCompraDTO> productos;

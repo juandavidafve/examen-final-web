@@ -2,6 +2,7 @@ package co.edu.ufps.entities;
 
 import java.math.BigDecimal;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -19,7 +20,7 @@ public class Producto {
     private String nombre;
     private String descripcion;
     private BigDecimal precio;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "tipo_producto_id")
     private TipoProducto tipoProducto;
     private Integer cantidad;

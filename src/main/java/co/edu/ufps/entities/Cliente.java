@@ -1,5 +1,6 @@
 package co.edu.ufps.entities;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -16,7 +17,7 @@ public class Cliente {
     private Integer id;
     private String nombre;
     private String documento;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "tipo_documento_id")
     private TipoDocumento tipoDocumento;
 }
