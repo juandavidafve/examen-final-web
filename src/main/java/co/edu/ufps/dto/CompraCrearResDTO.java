@@ -13,7 +13,9 @@ public class CompraCrearResDTO {
 	
 	public static CompraCrearResDTO fromEntity(Compra compra) {
 		CompraCrearResDTO resDTO = new CompraCrearResDTO();
-		resDTO.setData(DataCreateCompraDTO.fromEntity(compra));
+		if(compra != null) {
+			resDTO.setData(DataCreateCompraDTO.fromEntity(compra));
+		}
 		return resDTO;
 	}
 }
