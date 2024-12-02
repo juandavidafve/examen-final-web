@@ -2,6 +2,7 @@ package co.edu.ufps.controller;
 
 import org.springframework.web.bind.annotation.RestController;
 
+import co.edu.ufps.dto.CompraCrearResDTO;
 import co.edu.ufps.dto.FacturaCrearReqDTO;
 import co.edu.ufps.entities.Compra;
 import co.edu.ufps.entities.Tienda;
@@ -21,7 +22,7 @@ public class FacturaController {
 	CompraService compraService;
 	
 	@PostMapping("crear/{uuidTienda}")
-	public String crearFactura(@PathVariable String uuidTienda, @RequestBody FacturaCrearReqDTO compraDTO) {
+	public CompraCrearResDTO crearFactura(@PathVariable String uuidTienda, @RequestBody FacturaCrearReqDTO compraDTO) {
 		Compra compra = compraDTO.toEntity();
 		Tienda tienda = new Tienda();
 		tienda.setUuid(uuidTienda);
@@ -29,7 +30,10 @@ public class FacturaController {
 		
 		compraService.crearFactura(compra);
 		
-		return "Hello World";
+		CompraCrearResDTO resDTO = CompraCrearResDTO.fromEntity(compra);
+		resDTO.setMessage("La factura se ha creado correctamente con el número: " + compra.getId());
+				
+		return resDTO;
 	}
 	
 }

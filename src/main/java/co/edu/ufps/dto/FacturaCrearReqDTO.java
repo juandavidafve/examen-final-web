@@ -25,15 +25,14 @@ public class FacturaCrearReqDTO {
 	private CajeroDTO cajero;
 	
 	public Compra toEntity() {
-		
-		System.out.print(this);
-		
 		Compra compra = new Compra();
 		compra.setImpuestos(this.impuesto);
 		
 		if(this.cliente != null) {
 			compra.setCliente(this.cliente.toEntity());
 		}
+		
+		
 		
 		if(this.productos != null) {
 			List<DetallesCompra> productos = new ArrayList<DetallesCompra>();

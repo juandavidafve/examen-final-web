@@ -18,11 +18,11 @@ import lombok.ToString;
 public class DataCreateCompraDTO {
 	private Integer numero;
 	private BigDecimal total;
-	private LocalDate fecha;
+	private String fecha;
 	
 	public static DataCreateCompraDTO fromEntity(Compra compra) {
 		DataCreateCompraDTO dataDTO = new DataCreateCompraDTO();
-		dataDTO.setFecha(LocalDate.now());
+		dataDTO.setFecha(LocalDate.now().toString());
 		dataDTO.setTotal(compra.getTotal());
 		dataDTO.setNumero(compra.getId());
 		
