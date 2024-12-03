@@ -19,10 +19,10 @@ public class DetallesCompra {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "compra_id")
     private Compra compra;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "producto_id")
     private Producto producto;
     private Integer cantidad;

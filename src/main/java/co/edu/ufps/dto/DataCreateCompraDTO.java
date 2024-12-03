@@ -22,7 +22,7 @@ public class DataCreateCompraDTO {
 	
 	public static DataCreateCompraDTO fromEntity(Compra compra) {
 		DataCreateCompraDTO dataDTO = new DataCreateCompraDTO();
-		dataDTO.setFecha(LocalDate.now().toString());
+		dataDTO.setFecha(compra.getFecha().toString());
 		dataDTO.setTotal(compra.getTotal());
 		dataDTO.setNumero(compra.getId());
 		

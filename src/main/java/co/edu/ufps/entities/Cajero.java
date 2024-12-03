@@ -17,7 +17,7 @@ public class Cajero {
     private Integer id;
     private String nombre;
     private String documento;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "tienda_id")
     private Tienda tienda;
     private String email;

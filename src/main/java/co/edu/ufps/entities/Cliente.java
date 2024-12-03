@@ -17,7 +17,7 @@ public class Cliente {
     private Integer id;
     private String nombre;
     private String documento;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "tipo_documento_id")
     private TipoDocumento tipoDocumento;
 }

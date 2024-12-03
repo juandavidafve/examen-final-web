@@ -3,9 +3,10 @@ package co.edu.ufps.controller;
 import org.springframework.web.bind.annotation.RestController;
 
 import co.edu.ufps.dto.CompraCrearResDTO;
-import co.edu.ufps.dto.FacturaCrearReqDTO;
+import co.edu.ufps.dto.CompraCrearReqDTO;
 import co.edu.ufps.entities.Compra;
 import co.edu.ufps.entities.Tienda;
+import co.edu.ufps.exceptions.BusinessException;
 import co.edu.ufps.exceptions.ResourceNotFoundException;
 import co.edu.ufps.services.CompraService;
 
@@ -19,13 +20,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @RestController
 @RequestMapping("/")
-public class FacturaController {
+public class CompraController {
 	
 	@Autowired
 	CompraService compraService;
 	
 	@PostMapping("crear/{uuidTienda}")
-	public ResponseEntity<CompraCrearResDTO> crearFactura(@PathVariable String uuidTienda, @RequestBody FacturaCrearReqDTO compraDTO) {
+	public ResponseEntity<CompraCrearResDTO> crearFactura(@PathVariable String uuidTienda, @RequestBody CompraCrearReqDTO compraDTO) {
 		Compra compra = compraDTO.toEntity();
 		Tienda tienda = new Tienda();
 		tienda.setUuid(uuidTienda);
@@ -35,8 +36,14 @@ public class FacturaController {
 			compraService.crearFactura(compra);
 			CompraCrearResDTO resDTO = CompraCrearResDTO.fromEntity(compra);
 			resDTO.setMessage("La factura se ha creado correctamente con el número: " + compra.getId());
+			resDTO.setStatus("success");
 			return ResponseEntity.ok(resDTO);	
 		} catch(ResourceNotFoundException e) {
+			CompraCrearResDTO resDTO = new CompraCrearResDTO();
+			resDTO.setStatus("error");
+			resDTO.setMessage(e.getMessage());
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(resDTO);
+		} catch(BusinessException e) {
 			CompraCrearResDTO resDTO = new CompraCrearResDTO();
 			resDTO.setStatus("error");
 			resDTO.setMessage(e.getMessage());

@@ -2,6 +2,7 @@ package co.edu.ufps.entities;
 
 import java.math.BigDecimal;
 
+import co.edu.ufps.exceptions.BusinessException;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -20,9 +21,17 @@ public class Producto {
     private String nombre;
     private String descripcion;
     private BigDecimal precio;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "tipo_producto_id")
     private TipoProducto tipoProducto;
     private Integer cantidad;
     private String referencia;
+    
+    public void consumir(Integer cantidad) {
+    	if(cantidad > this.cantidad) {
+    		throw new BusinessException("La cantidad a comprar supera el máximo del producto en tienda");
+    	}
+    	
+    	this.cantidad -= cantidad;
+    }
 }
