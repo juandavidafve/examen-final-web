@@ -163,4 +163,39 @@ public class CompraService {
 		
 		return compraRepository.save(compra);
 	}
+	
+	public Compra consultarFactura(Compra compra, Cajero cajero, Cliente cliente) {
+		if(compra.getTienda() == null) {
+			throw new ResourceNotFoundException("No hay información de la tienda.");
+		}
+		
+		if(compra.getId() == null) {
+			throw new ResourceNotFoundException("No hay información de la factura.");
+		}
+		
+		if(cajero == null || cajero.getToken() == null) {
+			throw new ResourceNotFoundException("No hay información del cajero.");
+		}
+		
+		if(cliente == null || cliente.getDocumento() == null) {
+			throw new ResourceNotFoundException("No hay información del cliente.");
+		}
+		
+		Optional<Tienda> tiendaOpt = tiendaRepository.findOneByUuid(compra.getTienda().getUuid());
+		if(tiendaOpt.isEmpty()) {
+			throw new ResourceNotFoundException("La tienda no existe.");
+		}
+		
+		Optional<Compra> compraOpt = compraRepository.findById(compra.getId());
+		if(compraOpt.isEmpty()) {
+			throw new ResourceNotFoundException("La factura no existe.");
+		}
+		compra = compraOpt.get();
+		
+		if(!cajero.getToken().equals(compra.getCajero().getToken())) {
+			throw new BusinessException("El cajero no tiene permiso para ver la factura.");
+		}
+
+		return compra;
+	}
 }
