@@ -47,7 +47,7 @@ public class CompraController {
 			CompraCrearResDTO resDTO = new CompraCrearResDTO();
 			resDTO.setStatus("error");
 			resDTO.setMessage(e.getMessage());
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(resDTO);
+			return ResponseEntity.status(HttpStatus.FORBIDDEN).body(resDTO);
 		}
 	}
 }

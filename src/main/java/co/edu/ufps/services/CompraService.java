@@ -1,6 +1,5 @@
 package co.edu.ufps.services;
 
-import java.math.BigInteger;
 import java.util.List;
 import java.util.Optional;
 
@@ -69,12 +68,12 @@ public class CompraService {
 			throw new ResourceNotFoundException("No hay información del vendedor.");
 		}
 		
-		if(compra.getCliente() == null) {
+		if(compra.getCliente() == null || compra.getCliente().getDocumento() == null) {
 			throw new ResourceNotFoundException("No hay información del cliente.");
 		}
 		
 		if(compra.getPagos() == null || compra.getPagos().size() == 0) {
-			throw new ResourceNotFoundException("No hay medios de pagos asignado para esta compra.");
+			throw new ResourceNotFoundException("No hay medios de pagos asignados para esta compra.");
 		}
 		
 		if(compra.getDetallesCompra() == null || compra.getDetallesCompra().size() == 0) {
@@ -103,7 +102,9 @@ public class CompraService {
 		
 		compra.getCliente().setTipoDocumento(tipoDocumento);
 		
-		for(DetallesCompra detalleCompra : compra.getDetallesCompra()) {
+		List<DetallesCompra> detallesCompra = compra.getDetallesCompra();
+		
+		for(DetallesCompra detalleCompra : detallesCompra) {
 			String referencia = detalleCompra.getProducto().getReferencia();
 			Optional<Producto> productoOpt = productoRepository.findOneByReferencia(referencia);
 			
@@ -115,7 +116,10 @@ public class CompraService {
 			producto.consumir(detalleCompra.getCantidad());
 			
 			detalleCompra.setProducto(producto);
+			detalleCompra.setCompra(compra);
 		}
+		
+		compra.setDetalleCompra(detallesCompra);
 		
 		for(Pago pago : compra.getPagos()) {
 			if(pago.getTipoPago() == null) {
@@ -131,6 +135,7 @@ public class CompraService {
 			}
 			
 			pago.setTipoPago(tipoPagoOpt.get());
+			pago.setCompra(compra);
 		}
 		
 		Optional<Vendedor> vendedorOpt = vendedorRepository.findOneByDocumento(compra.getVendedor().getDocumento());
@@ -150,6 +155,10 @@ public class CompraService {
 		
 		if(!cajero.getTienda().equals(tienda)) {
 			throw new BusinessException("El cajero no está asignado a esta tienda");
+		}
+		
+		if(!compra.getTotalPagos().equals(compra.getTotal())) {
+			throw new BusinessException("El valor de la factura no coincide con el valor total de los pagos");
 		}
 		
 		return compraRepository.save(compra);

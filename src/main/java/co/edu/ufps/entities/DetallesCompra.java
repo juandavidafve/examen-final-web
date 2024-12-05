@@ -1,7 +1,5 @@
 package co.edu.ufps.entities;
 
-import java.math.BigDecimal;
-
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -25,7 +23,28 @@ public class DetallesCompra {
     @ManyToOne
     @JoinColumn(name = "producto_id")
     private Producto producto;
-    private Integer cantidad;
-    private BigDecimal precio;
-    private BigDecimal descuento;
+    private Integer cantidad = 0;
+    private Integer precio = 0;
+    private Integer descuento = 0;
+    
+    private void updatePrecio() {
+    	if(this.producto != null && this.producto.getPrecio() != null) {
+    		this.precio = this.cantidad * this.producto.getPrecio() * (100 - this.descuento) / 100;
+    	}
+    }
+    
+    public void setProducto(Producto producto) {
+    	this.producto = producto;
+    	updatePrecio();
+    }
+    
+    public void setCantidad(Integer cantidad) {
+    	this.cantidad = cantidad;
+    	updatePrecio();
+    }
+    
+    public void setDescuento(Integer descuento) {
+    	this.descuento = descuento;
+    	updatePrecio();
+    }
 }

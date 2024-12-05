@@ -1,6 +1,5 @@
 package co.edu.ufps.dto;
 
-import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -17,7 +16,7 @@ import lombok.ToString;
 @Data
 @ToString
 public class CompraCrearReqDTO {
-	private BigDecimal impuesto;
+	private Integer impuesto;
 	private ClienteDTO cliente;
 	private List<DetalleCompraDTO> productos;
 	
@@ -28,7 +27,6 @@ public class CompraCrearReqDTO {
 	
 	public Compra toEntity() {
 		Compra compra = new Compra();
-		compra.setFecha(new Timestamp(System.currentTimeMillis()));;
 		compra.setImpuestos(this.impuesto);
 		
 		if(this.cliente != null) {

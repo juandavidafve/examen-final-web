@@ -1,6 +1,5 @@
 package co.edu.ufps.entities;
 
-import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -32,9 +31,9 @@ public class Compra {
     @ManyToOne
     @JoinColumn(name = "cajero_id")
     private Cajero cajero;
-    private BigDecimal total;
-    private BigDecimal impuestos;
-    private Timestamp fecha;
+    private Integer total = 0;
+    private Integer impuestos = 0;
+    private Timestamp fecha = new Timestamp(System.currentTimeMillis());
     private String observaciones;
     
     @OneToMany(mappedBy = "compra", cascade = CascadeType.ALL)
@@ -42,4 +41,28 @@ public class Compra {
     
     @OneToMany(mappedBy = "compra", cascade = CascadeType.ALL)
     private List<Pago> pagos;
+    
+    public void setDetalleCompra(List<DetallesCompra> detallesCompra) {
+    	this.detallesCompra = detallesCompra;
+    	this.total = 0;
+    	
+    	for(DetallesCompra detalleCompra: this.detallesCompra) {
+    		if(detalleCompra != null) {
+    			this.total += detalleCompra.getPrecio();
+    		}
+    	}
+    	this.total *= (100 + this.impuestos);
+    	this.total /= 100;
+    }
+    
+    public Integer getTotalPagos() {
+    	Integer totalPagos = 0;
+    	for(Pago pago: this.pagos) {
+    		if(pago != null) {
+    			totalPagos += pago.getValor();
+    		}
+    	}
+    	
+    	return totalPagos;
+    }
 }

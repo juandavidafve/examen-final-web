@@ -1,6 +1,5 @@
 package co.edu.ufps.dto;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -17,7 +16,7 @@ public class PagoDTO {
 	@JsonProperty("tipo_tarjeta")
     private String tipoTarjeta;
     private Integer cuotas;
-    private BigDecimal valor;
+    private Integer valor;
 
     public static PagoDTO fromEntity(Pago pago) {
         PagoDTO dto = new PagoDTO();
@@ -26,6 +25,7 @@ public class PagoDTO {
         }
         
         dto.setTipoTarjeta(pago.getTarjetaTipo());
+        
         dto.setCuotas(pago.getCuotas());
         dto.setValor(pago.getValor());
         return dto;
@@ -38,9 +38,16 @@ public class PagoDTO {
             tipoPago.setNombre(this.tipoPago);
             pago.setTipoPago(tipoPago);
         }
+        
+        if(this.valor != null) {
+        	 pago.setValor(this.valor);
+        }
+        
+        if(this.cuotas != null) {
+        	pago.setCuotas(this.cuotas);
+        }
+        
         pago.setTarjetaTipo(this.tipoTarjeta);
-        pago.setCuotas(this.cuotas);
-        pago.setValor(this.valor);
         return pago;
     }
 }

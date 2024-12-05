@@ -1,7 +1,5 @@
 package co.edu.ufps.dto;
 
-import java.math.BigDecimal;
-
 import com.fasterxml.jackson.annotation.JsonAlias;
 
 import co.edu.ufps.entities.Cliente;
@@ -14,7 +12,7 @@ import lombok.Data;
 public class DetalleCompraDTO {
     private String referencia;
     private Integer cantidad;
-    private BigDecimal descuento;
+    private Integer descuento;
 
     public static DetalleCompraDTO fromEntity(DetallesCompra detallesCompra) {
         DetalleCompraDTO dto = new DetalleCompraDTO();

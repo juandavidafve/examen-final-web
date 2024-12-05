@@ -1,7 +1,5 @@
 package co.edu.ufps.entities;
 
-import java.math.BigDecimal;
-
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -24,6 +22,6 @@ public class Pago {
     @JoinColumn(name = "tipo_pago_id")
     private TipoPago tipoPago;
     private String tarjetaTipo;
-    private BigDecimal valor;
-    private Integer cuotas;
+    private Integer valor = 0;
+    private Integer cuotas = 1;
 }

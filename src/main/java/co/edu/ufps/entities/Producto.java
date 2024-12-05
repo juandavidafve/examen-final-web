@@ -1,7 +1,5 @@
 package co.edu.ufps.entities;
 
-import java.math.BigDecimal;
-
 import co.edu.ufps.exceptions.BusinessException;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -11,16 +9,18 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.Data;
+import lombok.ToString;
 
 @Entity
 @Data
+@ToString
 public class Producto {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String nombre;
     private String descripcion;
-    private BigDecimal precio;
+    private Integer precio;
     @ManyToOne
     @JoinColumn(name = "tipo_producto_id")
     private TipoProducto tipoProducto;
